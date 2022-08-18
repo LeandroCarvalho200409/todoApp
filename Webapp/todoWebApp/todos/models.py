@@ -15,4 +15,4 @@ class todo(models.Model):
     name = models.TextField()
     text = models.TextField()
     date = models.DateField()
-    user_fk = models.ForeignKey(user, CASCADE)
+    user_fk = models.ForeignKey(user, on_delete=models.CASCADE)
