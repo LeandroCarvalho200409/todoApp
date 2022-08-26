@@ -9,6 +9,12 @@
     <title>TodoApp - Home</title>
 </head>
 <body>
-    <h1>Homepage</h1>
+    {% extends 'base.html' %}
+    {% block content %}
+        <h1>Homepage</h1>
+        <h2>Due today</h2>
+        {% load django_tables2 %}
+        {% render_table table %}
+    {% endblock %}
 </body>
 </html>
