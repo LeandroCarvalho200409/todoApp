@@ -16,7 +16,7 @@ class RegisterForm(forms.Form):
     surname = forms.CharField()
     email = forms.EmailField()
 
-class AddTodoForm(forms.Form):
+class TodoForm(forms.Form):
     name = forms.CharField()
     text = forms.CharField(widget=forms.Textarea())
     date = forms.DateField(widget=DatePickerInput())

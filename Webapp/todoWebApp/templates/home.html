@@ -12,9 +12,41 @@
     {% extends 'base.html' %}
     {% block content %}
         <h1>Homepage</h1>
-        <h2>Due today</h2>
-        {% load django_tables2 %}
-        {% render_table table %}
+        <h2>Today's todos</h2>
+        {% if todos_count > 0 %}
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Text</th>
+                <th>Date</th>
+                <th>Done?</th>
+            </thead>
+            <tbody>
+                {% for todo in todos %}
+                    <tr>
+                        <td>{{ todo.name }}</td>
+                        <td>{{ todo.text }}</td>
+                        <td>{{ todo.date }}</td>
+                        <td>{{ todo.done }}</td>
+                        <td>
+                            <button type="button">
+                                <a href="{% url 'alterTodo' name=todo.name %}">Edit</a>
+                            </button>
+                            
+                        </td>
+                        <td>
+                            <button>
+                                <a href="{% url 'done' name=todo.name %}">Done</a>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr></tr>
+            </tbody>
+        </table>
+        {% else %}
+            <p>None</p>
+        {% endif %}
     {% endblock %}
 </body>
 </html>

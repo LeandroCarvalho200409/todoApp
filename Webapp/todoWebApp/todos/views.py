@@ -67,7 +67,7 @@ def funcRegister(request):
     
 def createTodo(request):
     if request.method == 'POST':
-        form = AddTodoForm(request.POST)
+        form = TodoForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
             date = form.cleaned_data['date']
@@ -84,9 +84,46 @@ def createTodo(request):
             else:
                 return render(request, 'addTodo.html', {'form': form})
     else:
-        form = AddTodoForm()
+        form = TodoForm()
         return render(request, 'addTodo.html', {'form': form})
 
+def alterTodo(request, name):
+    change_todo_set = todo.objects.filter(name=name).all()
+    change_todo = change_todo_set.first()
+    current_data = {
+        "name": change_todo.name,
+        "text": change_todo.text,
+        "date": change_todo.date,
+        "done": change_todo.done,
+    }
+
+    if request.method == 'POST':
+        print(current_data)
+        form = TodoForm(request.POST, initial=current_data)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            date = form.cleaned_data['date']
+            text = form.cleaned_data['text']
+            done = form.cleaned_data['done']
+
+            change_todo.name = name
+            change_todo.text = text
+            change_todo.date = date
+            change_todo.done = done
+            change_todo.save()
+            return redirect('home_page')
+    else:
+        form = TodoForm(initial=current_data)
+        return render(request, 'alterTodo.html', {'form': form})
+
+
+def setDone(request, name):
+    todos_set = todo.objects.filter(name=name).all()
+    doneTodo = todos_set.first()
+
+    doneTodo.done = True
+    doneTodo.save()
+    return redirect('home_page')
 
 
 
@@ -100,9 +137,9 @@ def todaystodoTable(request):
 
     today_date = today.strftime("%Y-%m-%d")
     print(today_date)
-    table = TodaysTodoTable(todo.objects.filter(person_fk_id=user_id, date=today_date).all())
+    todos = todo.objects.filter(person_fk_id=user_id, date=today_date, done=False).all()
 
-    context = {'table': table}
+    context = {'todos': todos, 'todos_count': todo.objects.filter(person_fk_id=user_id, date=today_date).count()}
     return render(request, "home.html", context)
     
 

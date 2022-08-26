@@ -10,7 +10,10 @@
 </head>
 <body>
     <div class="navbar">
+        <a href={% url 'home_page' %}>Home</a>
         <a href={% url 'createTodo' %}>Create new todo</a>
+        <a href="">Change User</a>
+        <a href="">Logout</a>
     </div>
     {% block content %}
     {% endblock %}
