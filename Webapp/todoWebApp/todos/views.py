@@ -125,6 +125,14 @@ def setDone(request, name):
     doneTodo.save()
     return redirect('home_page')
 
+def logout(request):
+    user_set = person.objects.filter(id=request.session['user_id']).all()
+    request.session['user_id'] = 0
+    logout_user = user_set.first()
+    logout_user.is_authenticated = False
+    logout_user.save()
+    return redirect('login_page')
+
 
 
 
