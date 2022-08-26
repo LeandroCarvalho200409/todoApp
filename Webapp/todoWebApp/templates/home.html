@@ -22,7 +22,43 @@
                 <th>Done?</th>
             </thead>
             <tbody>
-                {% for todo in todos %}
+                {% for todo in todos_today %}
+                    <tr>
+                        <td>{{ todo.name }}</td>
+                        <td>{{ todo.text }}</td>
+                        <td>{{ todo.date }}</td>
+                        <td>{{ todo.done }}</td>
+                        <td>
+                            <button type="button">
+                                <a href="{% url 'alterTodo' name=todo.name %}">Edit</a>
+                            </button>
+                            
+                        </td>
+                        <td>
+                            <button>
+                                <a href="{% url 'done' name=todo.name %}">Done</a>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr></tr>
+            </tbody>
+        </table>
+        {% else %}
+            <p>None</p>
+        {% endif %}
+        <br>
+        <h2>Future's todos</h2>
+        {% if todos_future_count > 0 %}
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Text</th>
+                <th>Date</th>
+                <th>Done?</th>
+            </thead>
+            <tbody>
+                {% for todo in todos_future %}
                     <tr>
                         <td>{{ todo.name }}</td>
                         <td>{{ todo.text }}</td>

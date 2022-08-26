@@ -181,9 +181,13 @@ def todaystodoTable(request):
 
     today_date = today.strftime("%Y-%m-%d")
     print(today_date)
-    todos = todo.objects.filter(person_fk_id=user_id, date=today_date, done=False).all()
+    todos_today = todo.objects.filter(person_fk_id=user_id, date=today_date, done=False).all()
+    todos_future = todo.objects.filter(person_fk_id=user_id, date__gte=today, done=False).all()
 
-    context = {'todos': todos, 'todos_count': todo.objects.filter(person_fk_id=user_id, date=today_date).count()}
+    todos_today_count = todo.objects.filter(person_fk_id=user_id, date=today_date).count()
+    todos_future_count = todo.objects.filter(person_fk_id=user_id, date__gte=today, done=False).count()
+
+    context = {'todos_today': todos_today, 'todos_count': todos_today_count, 'todos_future': todos_future, 'todos_future_count': todos_future_count}
     return render(request, "home.html", context)
     
 
