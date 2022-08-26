@@ -53,7 +53,7 @@ def funcRegister(request):
                 if password == conf_pwd:
                     converted_pwd = hashlib.sha256(password.encode())
                     dig_pwd = converted_pwd.hexdigest()
-                    user = person.objects.create(username=username, password=str(dig_pwd), name=surname+" "+name, email=email)
+                    user = person.objects.create(username=username, password=str(dig_pwd), name=name+" "+surname, email=email)
                     return redirect("home_page")
                 else:
                     print("failed1")
@@ -132,6 +132,42 @@ def logout(request):
     logout_user.is_authenticated = False
     logout_user.save()
     return redirect('login_page')
+
+def alterUser(request):
+    change_person_set = person.objects.filter(id=request.session['user_id']).all()
+    change_person = change_person_set.first()
+    names = change_person.name.split(" ")
+    current_data = {
+        "name": names[0],
+        'surname': names[1],
+        "email": change_person.email,
+        "username": change_person.username,
+    }
+    if request.method == "POST":
+        form = RegisterForm(request.POST or None, initial=current_data)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            password = form.cleaned_data['password']
+            conf_pwd = form.cleaned_data['confirm_password']
+            surname = form.cleaned_data['surname']
+            email = form.cleaned_data['email']
+            username = form.cleaned_data['username']
+
+            if password == conf_pwd:
+                converted_pwd = hashlib.sha256(password.encode())
+                dig_pwd = converted_pwd.hexdigest()
+                change_person.name = name+" "+surname
+                change_person.email = email
+                change_person.password = str(dig_pwd)
+                change_person.username = username
+                change_person.save()
+                return redirect("home_page")
+            else:
+                print("failed1")
+                return render(request, "alterUser.html", {"form": form})
+    else:
+        form = RegisterForm(initial=current_data)
+        return render(request, "alterUser.html", {"form": form})
 
 
 

@@ -7,12 +7,15 @@
     <title>TodoApp - Add todo</title>
 </head>
 <body>
+    {% extends 'base.html' %}
+    {% block content %}
     <h1>Create new Todo</h1>
     <form action='' method='POST'>
         {% csrf_token %}
         {{ form.as_p }}
         <button type='submit'>Create</button>
     </form>
+    {% endblock %}
 </body>
 </html>
 

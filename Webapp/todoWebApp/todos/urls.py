@@ -9,4 +9,5 @@ urlpatterns = [
     path('alterTodo/<str:name>', alterTodo, name='alterTodo'),
     path('done/<str:name>', setDone, name='done'),
     path('logout', logout, name='logout'),
+    path('alterUser', alterUser, name='alterUser'),
 ]

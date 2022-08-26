@@ -12,7 +12,7 @@
     <div class="navbar">
         <a href={% url 'home_page' %}>Home</a>
         <a href={% url 'createTodo' %}>Create new todo</a>
-        <a href="">Change User</a>
+        <a href={% url 'alterUser' %}>Change User</a>
         <a href={% url 'logout' %}>Logout</a>
     </div>
     {% block content %}

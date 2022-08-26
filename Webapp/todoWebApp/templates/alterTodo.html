@@ -7,12 +7,15 @@
     <title>Change Todo</title>
 </head>
 <body>
+    {% extends 'base.html' %}
+    {% block content %}
     <h2>Edit Todo</h2>
     <form action='' method='POST'>
         {% csrf_token %}
         {{ form.as_p }}
         <button type='submit'>Edit</button>
     </form>
+    {% endblock %}
 </body>
 </html>
 
